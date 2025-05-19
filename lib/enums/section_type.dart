@@ -1,4 +1,4 @@
-enum SectionType {
+enum YTMusicSectionType {
   row,
   singleColumn,
   multiColumn,

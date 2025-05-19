@@ -6,7 +6,7 @@ import 'modals.dart';
 part 'podcast.g.dart';
 
 @JsonSerializable()
-class PodcastPage {
+class YTMusicPodcastPage {
   final String podcastId;
   final String title;
   final String subtitle;
@@ -15,12 +15,12 @@ class PodcastPage {
   // final Map<String, dynamic>? radioEndpoint;
   // final ArtistBasic artist;
   final String secondSubtitle;
-  final List<Thumbnail> thumbnails;
+  final List<YTMusicThumbnail> thumbnails;
   final String? description;
-  final List<Section> sections;
+  final List<YTMusicSection> sections;
   final String? continuation;
 
-  PodcastPage({
+  YTMusicPodcastPage({
     required this.podcastId,
     required this.title,
     // required this.artist,
@@ -42,14 +42,14 @@ class PodcastPage {
     Map<String, dynamic>? playEndpoint,
     Map<String, dynamic>? shuffleEndpoint,
     Map<String, dynamic>? radioEndpoint,
-    ArtistBasic? artist,
+    YTMusicArtistBasic? artist,
     String? secondSubtitle,
-    List<Thumbnail>? thumbnails,
+    List<YTMusicThumbnail>? thumbnails,
     String? description,
-    List<Section>? sections,
+    List<YTMusicSection>? sections,
     String? continuation,
   }) =>
-      PodcastPage(
+      YTMusicPodcastPage(
         podcastId: podcastId ?? this.podcastId,
         title: title ?? this.title,
         subtitle: subtitle ?? this.subtitle,
@@ -64,9 +64,9 @@ class PodcastPage {
         continuation: continuation ?? this.continuation,
       );
 
-  factory PodcastPage.fromJson(Map<String, dynamic> json) =>
-      _$PodcastPageFromJson(json);
+  factory YTMusicPodcastPage.fromJson(Map<String, dynamic> json) =>
+      _$YTMusicPodcastPageFromJson(json);
 
-  /// Connect the generated [_$PodcastPageToJson] function to the `toJson` method.
-  Map<String, dynamic> toJson() => _$PodcastPageToJson(this);
+  /// Connect the generated [_$YTMusicPodcastPageToJson] function to the `toJson` method.
+  Map<String, dynamic> toJson() => _$YTMusicPodcastPageToJson(this);
 }

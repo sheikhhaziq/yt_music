@@ -3,18 +3,18 @@ import 'package:json_annotation/json_annotation.dart';
 part 'trailing_option.g.dart';
 
 @JsonSerializable()
-class TrailingOption {
+class YTMusicTrailingOption {
   final String text;
   final Map<String, dynamic> endpoint;
   final bool isPlayable;
-  TrailingOption({
+  YTMusicTrailingOption({
     required this.text,
     required this.endpoint,
     this.isPlayable = false,
   });
-  factory TrailingOption.fromJson(Map<String, dynamic> json) =>
-      _$TrailingOptionFromJson(json);
+  factory YTMusicTrailingOption.fromJson(Map<String, dynamic> json) =>
+      _$YTMusicTrailingOptionFromJson(json);
 
-  /// Connect the generated [_$TrailingOptionToJson] function to the `toJson` method.
-  Map<String, dynamic> toJson() => _$TrailingOptionToJson(this);
+  /// Connect the generated [_$YTMusicTrailingOptionToJson] function to the `toJson` method.
+  Map<String, dynamic> toJson() => _$YTMusicTrailingOptionToJson(this);
 }

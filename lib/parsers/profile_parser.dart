@@ -3,7 +3,7 @@ import 'parser.dart';
 import '../utils/traverse.dart';
 
 class ProfileParser {
-  static ProfilePage parse(dynamic data) {
+  static YTMusicProfilePage parse(dynamic data) {
     final List contents = traverse(data, [
       'contents',
       'singleColumnBrowseResultsRenderer',
@@ -15,9 +15,9 @@ class ProfileParser {
 
     final header = data['header'];
     final thumbs = traverseList(header, ["thumbnail", "thumbnails"])
-        .map((item) => Thumbnail.fromMap(item))
+        .map((item) => YTMusicThumbnail.fromMap(item))
         .toList();
-    return ProfilePage(
+    return YTMusicProfilePage(
       name: traverseString(header, ["title", "text"]) ?? '',
       description: traverseString(header, ["description", "text"]),
       subscribers: traverseString(
@@ -28,7 +28,7 @@ class ProfileParser {
           .map(Parser.parseSection)
           .where((e) => e != null)
           .toList()
-          .cast<Section>(),
+          .cast<YTMusicSection>(),
     );
   }
 }

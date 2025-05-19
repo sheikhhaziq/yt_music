@@ -6,26 +6,29 @@ part of 'playlist.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PlaylistPage _$PlaylistPageFromJson(Map<String, dynamic> json) => PlaylistPage(
+YTMusicPlaylistPage _$YTMusicPlaylistPageFromJson(Map<String, dynamic> json) =>
+    YTMusicPlaylistPage(
       playlistId: json['playlistId'] as String,
       title: json['title'] as String,
-      artist: ArtistBasic.fromJson(json['artist'] as Map<String, dynamic>),
+      artist:
+          YTMusicArtistBasic.fromJson(json['artist'] as Map<String, dynamic>),
       subtitle: json['subtitle'] as String,
       playEndpoint: json['playEndpoint'] as Map<String, dynamic>?,
       shuffleEndpoint: json['shuffleEndpoint'] as Map<String, dynamic>?,
       radioEndpoint: json['radioEndpoint'] as Map<String, dynamic>?,
       secondSubtitle: json['secondSubtitle'] as String,
       thumbnails: (json['thumbnails'] as List<dynamic>)
-          .map((e) => Thumbnail.fromJson(e as Map<String, dynamic>))
+          .map((e) => YTMusicThumbnail.fromJson(e as Map<String, dynamic>))
           .toList(),
       description: json['description'] as String?,
       sections: (json['sections'] as List<dynamic>)
-          .map((e) => Section.fromJson(e as Map<String, dynamic>))
+          .map((e) => YTMusicSection.fromJson(e as Map<String, dynamic>))
           .toList(),
       continuation: json['continuation'] as String?,
     );
 
-Map<String, dynamic> _$PlaylistPageToJson(PlaylistPage instance) =>
+Map<String, dynamic> _$YTMusicPlaylistPageToJson(
+        YTMusicPlaylistPage instance) =>
     <String, dynamic>{
       'playlistId': instance.playlistId,
       'title': instance.title,

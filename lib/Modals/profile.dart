@@ -6,15 +6,15 @@ import 'modals.dart';
 part 'profile.g.dart';
 
 @JsonSerializable()
-class ProfilePage {
+class YTMusicProfilePage {
   final String name;
-  final List<Section> sections;
+  final List<YTMusicSection> sections;
   final String? description;
-  final List<Thumbnail>? thumbnails;
+  final List<YTMusicThumbnail>? thumbnails;
   final String? subscribers;
   final String? channelId;
 
-  ProfilePage({
+  YTMusicProfilePage({
     required this.name,
     required this.sections,
     this.description,
@@ -23,9 +23,9 @@ class ProfilePage {
     this.subscribers,
   });
 
-  factory ProfilePage.fromJson(Map<String, dynamic> json) =>
-      _$ProfilePageFromJson(json);
+  factory YTMusicProfilePage.fromJson(Map<String, dynamic> json) =>
+      _$YTMusicProfilePageFromJson(json);
 
-  /// Connect the generated [_$ProfilePageToJson] function to the `toJson` method.
-  Map<String, dynamic> toJson() => _$ProfilePageToJson(this);
+  /// Connect the generated [_$YTMusicProfilePageToJson] function to the `toJson` method.
+  Map<String, dynamic> toJson() => _$YTMusicProfilePageToJson(this);
 }

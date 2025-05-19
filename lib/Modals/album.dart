@@ -6,27 +6,27 @@ import 'modals.dart';
 part 'album.g.dart';
 
 @JsonSerializable()
-class AlbumBasic {
+class YTMusicAlbumBasic {
   final String albumId;
   final String name;
 
   final Map<String, dynamic>? endpoint;
 
-  AlbumBasic({required this.albumId, required this.name, this.endpoint});
+  YTMusicAlbumBasic({required this.albumId, required this.name, this.endpoint});
 
-  // Construtor nomeado para criar uma AlbumBasic a partir de um mapa
-  AlbumBasic.fromMap(Map<String, dynamic> map)
+  // Construtor nomeado para criar uma YTMusicAlbumBasic a partir de um mapa
+  YTMusicAlbumBasic.fromMap(Map<String, dynamic> map)
       : albumId = map['albumId'] as String,
         name = map['name'] as String,
         endpoint = map['endpoint'];
-  factory AlbumBasic.fromJson(Map<String, dynamic> json) =>
-      _$AlbumBasicFromJson(json);
+  factory YTMusicAlbumBasic.fromJson(Map<String, dynamic> json) =>
+      _$YTMusicAlbumBasicFromJson(json);
 
-  /// Connect the generated [_$AlbumBasicToJson] function to the `toJson` method.
-  Map<String, dynamic> toJson() => _$AlbumBasicToJson(this);
+  /// Connect the generated [_$YTMusicAlbumBasicToJson] function to the `toJson` method.
+  Map<String, dynamic> toJson() => _$YTMusicAlbumBasicToJson(this);
 }
 @JsonSerializable()
-class AlbumPage {
+class YTMusicAlbumPage {
   final String playlistId;
   final String title;
   final String subtitle;
@@ -34,13 +34,13 @@ class AlbumPage {
   final Map<String, dynamic>? playPlaylistEndpoint;
   final Map<String, dynamic>? shuffleEndpoint;
   final Map<String, dynamic>? radioEndpoint;
-  final List<ArtistBasic> artists;
+  final List<YTMusicArtistBasic> artists;
   final String secondSubtitle;
-  final List<Thumbnail> thumbnails;
+  final List<YTMusicThumbnail> thumbnails;
   final String? description;
-  final List<Section> sections;
+  final List<YTMusicSection> sections;
 
-  AlbumPage({
+  YTMusicAlbumPage({
     required this.playlistId,
     required this.title,
     required this.artists,
@@ -55,9 +55,9 @@ class AlbumPage {
     required this.sections,
   });
 
-  factory AlbumPage.fromJson(Map<String, dynamic> json) =>
-      _$AlbumPageFromJson(json);
+  factory YTMusicAlbumPage.fromJson(Map<String, dynamic> json) =>
+      _$YTMusicAlbumPageFromJson(json);
 
-  /// Connect the generated [_$AlbumPageToJson] function to the `toJson` method.
-  Map<String, dynamic> toJson() => _$AlbumPageToJson(this);
+  /// Connect the generated [_$YTMusicAlbumPageToJson] function to the `toJson` method.
+  Map<String, dynamic> toJson() => _$YTMusicAlbumPageToJson(this);
 }

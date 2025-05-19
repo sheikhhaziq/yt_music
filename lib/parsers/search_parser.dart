@@ -3,7 +3,7 @@ import 'parser.dart';
 import '../utils/traverse.dart';
 
 class SearchParser {
-  static Section parseMore(dynamic data) {
+  static YTMusicSection parseMore(dynamic data) {
     // [title, selected, content, tabIdentifier, trackingParams]
     final contents = traverse(data, [
       'contents',
@@ -14,10 +14,10 @@ class SearchParser {
       'contents'
     ]);
 
-    return Parser.parseSection(contents[0]) as Section;
+    return Parser.parseSection(contents[0]) as YTMusicSection;
   }
 
-  static Section parseMoreContinuation(data) {
-    return Parser.parseSection(data['continuationContents']) as Section;
+  static YTMusicSection parseMoreContinuation(data) {
+    return Parser.parseSection(data['continuationContents']) as YTMusicSection;
   }
 }

@@ -6,7 +6,7 @@ import '../utils/traverse.dart';
 import 'parser.dart';
 
 class AlbumParser {
-  static AlbumPage parse(dynamic data) {
+  static YTMusicAlbumPage parse(dynamic data) {
     final header = traverse(data, [
       'contents',
       'tabs',
@@ -32,15 +32,15 @@ class AlbumParser {
             ?.where(isArtist)
             .toList() ??
         [];
-    final List<ArtistBasic> artists = artistData
-        .map((artist) => ArtistBasic(
+    final List<YTMusicArtistBasic> artists = artistData
+        .map((artist) => YTMusicArtistBasic(
             artistId: traverseString(artist, ["browseId"]),
             name: traverseString(artist, ["text"]) ?? '',
             endpoint:
                 traverse(artist, ['navigationEndpoint', 'browseEndpoint'])))
         .toList();
 
-    return AlbumPage(
+    return YTMusicAlbumPage(
       title: traverseString(header['title'], ["text"]) ?? '',
       playlistId:
           traverseString(data, ["musicPlayButtonRenderer", "playlistId"]) ?? '',
@@ -58,12 +58,12 @@ class AlbumParser {
       radioEndpoint: buttons.firstWhere(isRadio,
           orElse: () => null)?['navigationEndpoint']?['watchPlaylistEndpoint'],
       thumbnails: traverseList(header, ['thumbnail', 'thumbnail', 'thumbnails'])
-          .map((item) => Thumbnail.fromMap(item))
+          .map((item) => YTMusicThumbnail.fromMap(item))
           .toList(),
       sections: sections
           .map(Parser.parseSection)
           .where((e) => e != null)
-          .cast<Section>()
+          .cast<YTMusicSection>()
           .toList(),
       // songs: traverseList(data, ["musicResponsiveListItemRenderer"])
       //     .map(

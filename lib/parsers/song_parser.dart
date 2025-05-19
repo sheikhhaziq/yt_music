@@ -8,14 +8,14 @@ class SongParser {
       type: "SONG",
       videoId: traverseString(data, ["videoDetails", "videoId"]) ?? '',
       name: traverseString(data, ["videoDetails", "title"]) ?? '',
-      artist: ArtistBasic(
+      artist: YTMusicArtistBasic(
         name: traverseString(data, ["author"]) ?? '',
         artistId: traverseString(data, ["videoDetails", "channelId"]),
       ),
       duration: int.parse(
           traverseString(data, ["videoDetails", "lengthSeconds"]) ?? '0'),
       thumbnails: traverseList(data, ["videoDetails", "thumbnails"])
-          .map((item) => Thumbnail.fromMap(item))
+          .map((item) => YTMusicThumbnail.fromMap(item))
           .toList(),
       formats: traverseList(data, ["streamingData", "formats"]),
       adaptiveFormats: traverseList(data, ["streamingData", "adaptiveFormats"]),

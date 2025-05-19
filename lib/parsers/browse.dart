@@ -4,11 +4,11 @@ import '../utils/traverse.dart';
 import 'parser.dart';
 
 class BrowseParser {
-  static Section parseContinuation(data) {
-    return Parser.parseSection(data['continuationContents']) as Section;
+  static YTMusicSection parseContinuation(data) {
+    return Parser.parseSection(data['continuationContents']) as YTMusicSection;
   }
 
-  static List<SectionItem> parseMore(data) {
+  static List<YTMusicSectionItem> parseMore(data) {
     final sectionListRenderer = traverse(data['contents'], [
       'singleColumnBrowseResultsRenderer',
       'tabs',

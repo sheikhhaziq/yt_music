@@ -1,35 +1,35 @@
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:yt_music/enums/section_type.dart';
 
-import '../enums/section_type.dart';
 import 'modals.dart';
 
 part 'section.g.dart';
 
 @JsonSerializable()
-class Section {
+class YTMusicSection {
   final String? title;
-  final SectionType type;
-  final List<SectionItem> contents;
-  final TrailingOption? trailingOption;
+  final YTMusicSectionType type;
+  final List<YTMusicSectionItem> contents;
+  final YTMusicTrailingOption? trailingOption;
   final String? continuation;
 
-  Section({
+  YTMusicSection({
     this.title,
-    this.type = SectionType.row,
+    this.type = YTMusicSectionType.row,
     required this.contents,
     this.trailingOption,
     this.continuation,
   });
 
-  Section copyWith({
+  YTMusicSection copyWith({
     String? title,
-    SectionType? type,
-    List<SectionItem>? contents,
-    TrailingOption? trailingOption,
+    YTMusicSectionType? type,
+    List<YTMusicSectionItem>? contents,
+    YTMusicTrailingOption? trailingOption,
     String? continuation,
   }) =>
-      Section(
+      YTMusicSection(
         title: title ?? this.title,
         type: type ?? this.type,
         contents: contents ?? this.contents,
@@ -37,12 +37,12 @@ class Section {
         continuation: continuation ?? this.continuation,
       );
 
-  // Section.fromMap(Map<String, dynamic> map)
+  // YTMusicSection.fromMap(Map<String, dynamic> map)
   //     : title = map['title'] as String,
-  //       contents = map['contents'] as List<SectionItem>,;
-  factory Section.fromJson(Map<String, dynamic> json) =>
-      _$SectionFromJson(json);
+  //       contents = map['contents'] as List<YTMusicSectionItem>,;
+  factory YTMusicSection.fromJson(Map<String, dynamic> json) =>
+      _$YTMusicSectionFromJson(json);
 
-  /// Connect the generated [_$SectionToJson] function to the `toJson` method.
-  Map<String, dynamic> toJson() => _$SectionToJson(this);
+  /// Connect the generated [_$YTMusicSectionToJson] function to the `toJson` method.
+  Map<String, dynamic> toJson() => _$YTMusicSectionToJson(this);
 }

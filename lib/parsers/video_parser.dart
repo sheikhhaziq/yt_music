@@ -8,14 +8,14 @@ class VideoParser {
       type: "VIDEO",
       videoId: traverseString(data, ["videoDetails", "videoId"]) ?? '',
       name: traverseString(data, ["videoDetails", "title"]) ?? '',
-      artist: ArtistBasic(
+      artist: YTMusicArtistBasic(
         artistId: traverseString(data, ["videoDetails", "channelId"]),
         name: traverseString(data, ["author"]) ?? '',
       ),
       duration: int.parse(
           traverseString(data, ["videoDetails", "lengthSeconds"]) ?? '0'),
       thumbnails: traverseList(data, ["videoDetails", "thumbnails"])
-          .map((item) => Thumbnail.fromMap(item))
+          .map((item) => YTMusicThumbnail.fromMap(item))
           .toList(),
       unlisted: traverse(data, ["unlisted"]),
       familySafe: traverse(data, ["familySafe"]),

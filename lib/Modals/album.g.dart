@@ -6,24 +6,26 @@ part of 'album.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AlbumBasic _$AlbumBasicFromJson(Map<String, dynamic> json) => AlbumBasic(
+YTMusicAlbumBasic _$YTMusicAlbumBasicFromJson(Map<String, dynamic> json) =>
+    YTMusicAlbumBasic(
       albumId: json['albumId'] as String,
       name: json['name'] as String,
       endpoint: json['endpoint'] as Map<String, dynamic>?,
     );
 
-Map<String, dynamic> _$AlbumBasicToJson(AlbumBasic instance) =>
+Map<String, dynamic> _$YTMusicAlbumBasicToJson(YTMusicAlbumBasic instance) =>
     <String, dynamic>{
       'albumId': instance.albumId,
       'name': instance.name,
       'endpoint': instance.endpoint,
     };
 
-AlbumPage _$AlbumPageFromJson(Map<String, dynamic> json) => AlbumPage(
+YTMusicAlbumPage _$YTMusicAlbumPageFromJson(Map<String, dynamic> json) =>
+    YTMusicAlbumPage(
       playlistId: json['playlistId'] as String,
       title: json['title'] as String,
       artists: (json['artists'] as List<dynamic>)
-          .map((e) => ArtistBasic.fromJson(e as Map<String, dynamic>))
+          .map((e) => YTMusicArtistBasic.fromJson(e as Map<String, dynamic>))
           .toList(),
       subtitle: json['subtitle'] as String,
       playEndpoint: json['playEndpoint'] as Map<String, dynamic>?,
@@ -33,15 +35,16 @@ AlbumPage _$AlbumPageFromJson(Map<String, dynamic> json) => AlbumPage(
       radioEndpoint: json['radioEndpoint'] as Map<String, dynamic>?,
       secondSubtitle: json['secondSubtitle'] as String,
       thumbnails: (json['thumbnails'] as List<dynamic>)
-          .map((e) => Thumbnail.fromJson(e as Map<String, dynamic>))
+          .map((e) => YTMusicThumbnail.fromJson(e as Map<String, dynamic>))
           .toList(),
       description: json['description'] as String?,
       sections: (json['sections'] as List<dynamic>)
-          .map((e) => Section.fromJson(e as Map<String, dynamic>))
+          .map((e) => YTMusicSection.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$AlbumPageToJson(AlbumPage instance) => <String, dynamic>{
+Map<String, dynamic> _$YTMusicAlbumPageToJson(YTMusicAlbumPage instance) =>
+    <String, dynamic>{
       'playlistId': instance.playlistId,
       'title': instance.title,
       'subtitle': instance.subtitle,

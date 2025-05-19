@@ -153,9 +153,9 @@ class SongFull implements SearchResult {
   final String type;
   final String videoId;
   final String name;
-  final ArtistBasic artist;
+  final YTMusicArtistBasic artist;
   final int duration;
-  final List<Thumbnail> thumbnails;
+  final List<YTMusicThumbnail> thumbnails;
   final List<dynamic> formats;
   final List<dynamic> adaptiveFormats;
 
@@ -175,10 +175,10 @@ class SongFull implements SearchResult {
       : type = map['type'] as String,
         videoId = map['videoId'] as String,
         name = map['name'] as String,
-        artist = ArtistBasic.fromMap(map['artist']),
+        artist = YTMusicArtistBasic.fromMap(map['artist']),
         duration = map['duration'] as int,
         thumbnails = (map['thumbnails'] as List)
-            .map((item) => Thumbnail.fromMap(item))
+            .map((item) => YTMusicThumbnail.fromMap(item))
             .toList(),
         formats = map['formats'] as List<dynamic>,
         adaptiveFormats = map['adaptiveFormats'] as List<dynamic>;
@@ -188,9 +188,9 @@ class VideoFull {
   final String type;
   final String videoId;
   final String name;
-  final ArtistBasic artist;
+  final YTMusicArtistBasic artist;
   final int duration;
-  final List<Thumbnail> thumbnails;
+  final List<YTMusicThumbnail> thumbnails;
   final bool unlisted;
   final bool familySafe;
   final bool paid;
@@ -214,10 +214,10 @@ class VideoFull {
       : type = map['type'] as String,
         videoId = map['videoId'] as String,
         name = map['name'] as String,
-        artist = ArtistBasic.fromMap(map['artist']),
+        artist = YTMusicArtistBasic.fromMap(map['artist']),
         duration = map['duration'] as int,
         thumbnails = (map['thumbnails'] as List)
-            .map((item) => Thumbnail.fromMap(item))
+            .map((item) => YTMusicThumbnail.fromMap(item))
             .toList(),
         unlisted = map['unlisted'] as bool,
         familySafe = map['familySafe'] as bool,

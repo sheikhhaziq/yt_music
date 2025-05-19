@@ -6,7 +6,7 @@ import '../utils/traverse.dart';
 import 'parser.dart';
 
 class PlaylistParser {
-  static PlaylistPage parse(dynamic data) {
+  static YTMusicPlaylistPage parse(dynamic data) {
     final secContents = traverse(data, [
       'contents',
       'twoColumnBrowseResultsRenderer',
@@ -33,7 +33,7 @@ class PlaylistParser {
         ['musicPlayButtonRenderer', 'playNavigationEndpoint', 'watchEndpoint']);
     final buttons = traverseList(header['buttons'],
         ['menuRenderer', 'items', 'menuNavigationItemRenderer']);
-    return PlaylistPage(
+    return YTMusicPlaylistPage(
       playlistId: 'playlistId',
       continuation: continuation,
       title: traverseString(header['title'], ["text"]) ?? '',
@@ -47,29 +47,29 @@ class PlaylistParser {
           orElse: () => null)?['navigationEndpoint']?['watchPlaylistEndpoint'],
       radioEndpoint: buttons.firstWhere(isRadio,
           orElse: () => null)?['navigationEndpoint']?['watchPlaylistEndpoint'],
-      artist: ArtistBasic(
+      artist: YTMusicArtistBasic(
         name: traverseString(artist, ["text"]) ?? '',
         artistId: traverseString(artist, ["browseId"]),
       ),
       thumbnails: traverseList(header, ['thumbnail', 'thumbnail', 'thumbnails'])
-          .map((item) => Thumbnail.fromMap(item))
+          .map((item) => YTMusicThumbnail.fromMap(item))
           .toList(),
       sections: sections
           .map(Parser.parseSection)
           .where((e) => e != null)
-          .cast<Section>()
+          .cast<YTMusicSection>()
           .toList(),
     );
   }
 
-  static List<Section> parseContinuation(dynamic data) {
+  static List<YTMusicSection> parseContinuation(dynamic data) {
     final contents = traverseList(
         data, ['continuationContents', 'sectionListContinuation', 'contents']);
     return contents
         .map(Parser.parseSection)
         .where((e) => e != null)
         .toList()
-        .cast<Section>();
+        .cast<YTMusicSection>();
   }
 
   // static PlaylistDetailed parseSearchResult(dynamic item) {

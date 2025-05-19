@@ -6,14 +6,16 @@ part of 'trailing_option.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-TrailingOption _$TrailingOptionFromJson(Map<String, dynamic> json) =>
-    TrailingOption(
+YTMusicTrailingOption _$YTMusicTrailingOptionFromJson(
+        Map<String, dynamic> json) =>
+    YTMusicTrailingOption(
       text: json['text'] as String,
       endpoint: json['endpoint'] as Map<String, dynamic>,
       isPlayable: json['isPlayable'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$TrailingOptionToJson(TrailingOption instance) =>
+Map<String, dynamic> _$YTMusicTrailingOptionToJson(
+        YTMusicTrailingOption instance) =>
     <String, dynamic>{
       'text': instance.text,
       'endpoint': instance.endpoint,

@@ -4,17 +4,17 @@ import 'package:json_annotation/json_annotation.dart';
 part 'home_page.g.dart';
 
 @JsonSerializable()
-class HomePage {
+class YTMusicHomePage {
   final String? continuation;
-  final List<Section> sections;
-  HomePage({
+  final List<YTMusicSection> sections;
+  YTMusicHomePage({
     this.continuation,
     required this.sections,
   });
 
-  factory HomePage.fromJson(Map<String, dynamic> json) =>
-      _$HomePageFromJson(json);
+  factory YTMusicHomePage.fromJson(Map<String, dynamic> json) =>
+      _$YTMusicHomePageFromJson(json);
 
-  /// Connect the generated [_$HomePageToJson] function to the `toJson` method.
-  Map<String, dynamic> toJson() => _$HomePageToJson(this);
+  /// Connect the generated [_$YTMusicHomePageToJson] function to the `toJson` method.
+  Map<String, dynamic> toJson() => _$YTMusicHomePageToJson(this);
 }

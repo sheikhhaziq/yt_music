@@ -6,21 +6,21 @@ import 'modals.dart';
 part 'playlist.g.dart';
 
 @JsonSerializable()
-class PlaylistPage {
+class YTMusicPlaylistPage {
   final String playlistId;
   final String title;
   final String subtitle;
   final Map<String, dynamic>? playEndpoint;
   final Map<String, dynamic>? shuffleEndpoint;
   final Map<String, dynamic>? radioEndpoint;
-  final ArtistBasic artist;
+  final YTMusicArtistBasic artist;
   final String secondSubtitle;
-  final List<Thumbnail> thumbnails;
+  final List<YTMusicThumbnail> thumbnails;
   final String? description;
-  final List<Section> sections;
+  final List<YTMusicSection> sections;
   final String? continuation;
 
-  PlaylistPage({
+  YTMusicPlaylistPage({
     required this.playlistId,
     required this.title,
     required this.artist,
@@ -42,14 +42,14 @@ class PlaylistPage {
     Map<String, dynamic>? playEndpoint,
     Map<String, dynamic>? shuffleEndpoint,
     Map<String, dynamic>? radioEndpoint,
-    ArtistBasic? artist,
+    YTMusicArtistBasic? artist,
     String? secondSubtitle,
-    List<Thumbnail>? thumbnails,
+    List<YTMusicThumbnail>? thumbnails,
     String? description,
-    List<Section>? sections,
+    List<YTMusicSection>? sections,
     String? continuation,
   }) =>
-      PlaylistPage(
+      YTMusicPlaylistPage(
         playlistId: playlistId ?? this.playlistId,
         title: title ?? this.title,
         subtitle: subtitle ?? this.subtitle,
@@ -64,9 +64,9 @@ class PlaylistPage {
         continuation: continuation ?? this.continuation,
       );
 
-  factory PlaylistPage.fromJson(Map<String, dynamic> json) =>
-      _$PlaylistPageFromJson(json);
+  factory YTMusicPlaylistPage.fromJson(Map<String, dynamic> json) =>
+      _$YTMusicPlaylistPageFromJson(json);
 
-  /// Connect the generated [_$PlaylistPageToJson] function to the `toJson` method.
-  Map<String, dynamic> toJson() => _$PlaylistPageToJson(this);
+  /// Connect the generated [_$YTMusicPlaylistPageToJson] function to the `toJson` method.
+  Map<String, dynamic> toJson() => _$YTMusicPlaylistPageToJson(this);
 }

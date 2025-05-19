@@ -6,20 +6,21 @@ part of 'profile.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ProfilePage _$ProfilePageFromJson(Map<String, dynamic> json) => ProfilePage(
+YTMusicProfilePage _$YTMusicProfilePageFromJson(Map<String, dynamic> json) =>
+    YTMusicProfilePage(
       name: json['name'] as String,
       sections: (json['sections'] as List<dynamic>)
-          .map((e) => Section.fromJson(e as Map<String, dynamic>))
+          .map((e) => YTMusicSection.fromJson(e as Map<String, dynamic>))
           .toList(),
       description: json['description'] as String?,
       thumbnails: (json['thumbnails'] as List<dynamic>?)
-          ?.map((e) => Thumbnail.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => YTMusicThumbnail.fromJson(e as Map<String, dynamic>))
           .toList(),
       channelId: json['channelId'] as String?,
       subscribers: json['subscribers'] as String?,
     );
 
-Map<String, dynamic> _$ProfilePageToJson(ProfilePage instance) =>
+Map<String, dynamic> _$YTMusicProfilePageToJson(YTMusicProfilePage instance) =>
     <String, dynamic>{
       'name': instance.name,
       'sections': instance.sections,

@@ -7,20 +7,20 @@ import 'modals.dart';
 part 'section_item.g.dart';
 
 @JsonSerializable()
-class SectionItem {
+class YTMusicSectionItem {
   final String title;
   final String id;
   final bool isExplicit;
-  final ItemType type;
+  final YTMusicItemType type;
   final String? playlistId;
   final String? duration;
   final Map<String, dynamic> endpoint;
-  final List<Thumbnail> thumbnails;
-  final List<ArtistBasic> artists;
-  final AlbumBasic? album;
+  final List<YTMusicThumbnail> thumbnails;
+  final List<YTMusicArtistBasic> artists;
+  final YTMusicAlbumBasic? album;
   final String? subtitle;
   final bool isHorizontal;
-  SectionItem({
+  YTMusicSectionItem({
     required this.title,
     required this.id,
     this.isExplicit = false,
@@ -34,9 +34,9 @@ class SectionItem {
     this.isHorizontal = false,
     this.album,
   });
-  factory SectionItem.fromJson(Map<String, dynamic> json) =>
-      _$SectionItemFromJson(json);
+  factory YTMusicSectionItem.fromJson(Map<String, dynamic> json) =>
+      _$YTMusicSectionItemFromJson(json);
 
-  /// Connect the generated [_$SectionItemToJson] function to the `toJson` method.
-  Map<String, dynamic> toJson() => _$SectionItemToJson(this);
+  /// Connect the generated [_$YTMusicSectionItemToJson] function to the `toJson` method.
+  Map<String, dynamic> toJson() => _$YTMusicSectionItemToJson(this);
 }

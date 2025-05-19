@@ -6,22 +6,23 @@ part of 'podcast.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PodcastPage _$PodcastPageFromJson(Map<String, dynamic> json) => PodcastPage(
+YTMusicPodcastPage _$YTMusicPodcastPageFromJson(Map<String, dynamic> json) =>
+    YTMusicPodcastPage(
       podcastId: json['podcastId'] as String,
       title: json['title'] as String,
       subtitle: json['subtitle'] as String,
       secondSubtitle: json['secondSubtitle'] as String,
       thumbnails: (json['thumbnails'] as List<dynamic>)
-          .map((e) => Thumbnail.fromJson(e as Map<String, dynamic>))
+          .map((e) => YTMusicThumbnail.fromJson(e as Map<String, dynamic>))
           .toList(),
       description: json['description'] as String?,
       sections: (json['sections'] as List<dynamic>)
-          .map((e) => Section.fromJson(e as Map<String, dynamic>))
+          .map((e) => YTMusicSection.fromJson(e as Map<String, dynamic>))
           .toList(),
       continuation: json['continuation'] as String?,
     );
 
-Map<String, dynamic> _$PodcastPageToJson(PodcastPage instance) =>
+Map<String, dynamic> _$YTMusicPodcastPageToJson(YTMusicPodcastPage instance) =>
     <String, dynamic>{
       'podcastId': instance.podcastId,
       'title': instance.title,

@@ -12,7 +12,7 @@ class PodcastParser {
     final header = contents['tabs'][0]['tabRenderer']['content']
         ['sectionListRenderer']['contents'][0]['musicResponsiveHeaderRenderer'];
     // [thumbnail, buttons, title, subtitle, trackingParams, straplineTextOne, straplineThumbnail, description]
-    return PodcastPage(
+    return YTMusicPodcastPage(
       podcastId: 'playlistId',
       // continuation: continuation,
       title: traverseString(header['title'], ["text"]) ?? '',
@@ -23,12 +23,12 @@ class PodcastParser {
           traverseString(header['description'], ['description', 'text']),
 
       thumbnails: traverseList(header, ['thumbnail', 'thumbnail', 'thumbnails'])
-          .map((item) => Thumbnail.fromMap(item))
+          .map((item) => YTMusicThumbnail.fromMap(item))
           .toList(),
       sections: sections
           .map(Parser.parseSection)
           .where((e) => e != null)
-          .cast<Section>()
+          .cast<YTMusicSection>()
           .toList(),
     );
   }

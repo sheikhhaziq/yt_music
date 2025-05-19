@@ -6,34 +6,34 @@ import 'modals.dart';
 part 'artist.g.dart';
 
 @JsonSerializable()
-class ArtistBasic {
+class YTMusicArtistBasic {
   final String? artistId;
   final Map<String, dynamic>? endpoint;
   final String name;
 
-  ArtistBasic({
+  YTMusicArtistBasic({
     this.artistId,
     required this.name,
     this.endpoint,
   });
 
-  // Construtor nomeado para criar uma ArtistBasic a partir de um mapa
-  ArtistBasic.fromMap(Map<String, dynamic> map)
+  // Construtor nomeado para criar uma YTMusicArtistBasic a partir de um mapa
+  YTMusicArtistBasic.fromMap(Map<String, dynamic> map)
       : artistId = map['artistId'] as String?,
         name = map['name'] as String,
         endpoint = map['endpoint'];
-  factory ArtistBasic.fromJson(Map<String, dynamic> json) =>
-      _$ArtistBasicFromJson(json);
+  factory YTMusicArtistBasic.fromJson(Map<String, dynamic> json) =>
+      _$YTMusicArtistBasicFromJson(json);
 
-  /// Connect the generated [_$ArtistBasicToJson] function to the `toJson` method.
-  Map<String, dynamic> toJson() => _$ArtistBasicToJson(this);
+  /// Connect the generated [_$YTMusicArtistBasicToJson] function to the `toJson` method.
+  Map<String, dynamic> toJson() => _$YTMusicArtistBasicToJson(this);
 }
 
-class ArtistPage {
+class YTMusicArtistPage {
   final String name;
-  final List<Section> sections;
+  final List<YTMusicSection> sections;
   final String description;
-  final List<Thumbnail>? thumbnails;
+  final List<YTMusicThumbnail>? thumbnails;
   final Map<String, dynamic>? playEndpoint;
   final Map<String, dynamic>? shuffleEndpoint;
   final Map<String, dynamic>? radioEndpoint;
@@ -48,7 +48,7 @@ class ArtistPage {
   // final List<PlaylistDetailed> featuredOn;
   // final List<ArtistDetailed> similarArtists;
 
-  ArtistPage({
+  YTMusicArtistPage({
     required this.name,
     required this.sections,
     required this.description,

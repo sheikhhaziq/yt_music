@@ -6,30 +6,32 @@ part of 'section.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Section _$SectionFromJson(Map<String, dynamic> json) => Section(
+YTMusicSection _$YTMusicSectionFromJson(Map<String, dynamic> json) =>
+    YTMusicSection(
       title: json['title'] as String?,
-      type: $enumDecodeNullable(_$SectionTypeEnumMap, json['type']) ??
-          SectionType.row,
+      type: $enumDecodeNullable(_$YTMusicSectionTypeEnumMap, json['type']) ??
+          YTMusicSectionType.row,
       contents: (json['contents'] as List<dynamic>)
-          .map((e) => SectionItem.fromJson(e as Map<String, dynamic>))
+          .map((e) => YTMusicSectionItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       trailingOption: json['trailingOption'] == null
           ? null
-          : TrailingOption.fromJson(
+          : YTMusicTrailingOption.fromJson(
               json['trailingOption'] as Map<String, dynamic>),
       continuation: json['continuation'] as String?,
     );
 
-Map<String, dynamic> _$SectionToJson(Section instance) => <String, dynamic>{
+Map<String, dynamic> _$YTMusicSectionToJson(YTMusicSection instance) =>
+    <String, dynamic>{
       'title': instance.title,
-      'type': _$SectionTypeEnumMap[instance.type]!,
+      'type': _$YTMusicSectionTypeEnumMap[instance.type]!,
       'contents': instance.contents,
       'trailingOption': instance.trailingOption,
       'continuation': instance.continuation,
     };
 
-const _$SectionTypeEnumMap = {
-  SectionType.row: 'row',
-  SectionType.singleColumn: 'singleColumn',
-  SectionType.multiColumn: 'multiColumn',
+const _$YTMusicSectionTypeEnumMap = {
+  YTMusicSectionType.row: 'row',
+  YTMusicSectionType.singleColumn: 'singleColumn',
+  YTMusicSectionType.multiColumn: 'multiColumn',
 };

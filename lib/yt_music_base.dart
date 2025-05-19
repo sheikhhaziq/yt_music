@@ -229,13 +229,13 @@ class YTMusic {
     return traverseList(response, ["query"]).whereType<String>().toList();
   }
 
-  Future<List<SectionItem>> getBrowseMore(Map<String, dynamic> endpoint) async {
+  Future<List<YTMusicSectionItem>> getBrowseMore(Map<String, dynamic> endpoint) async {
     final data = await constructRequest("browse", body: endpoint);
 
     return BrowseParser.parseMore(data);
   }
 
-  Future<Section> getBrowseContinuation(String continuation) async {
+  Future<YTMusicSection> getBrowseContinuation(String continuation) async {
     final data =
         await constructRequest("browse", query: {"continuation": continuation});
 
@@ -243,7 +243,7 @@ class YTMusic {
   }
 
   /// Performs a search for music with the given query and returns a list of search results.
-  Future<List<Section>> search(String query) async {
+  Future<List<YTMusicSection>> search(String query) async {
     final searchData = await constructRequest(
       "search",
       body: {"query": query, "params": null},
@@ -251,11 +251,11 @@ class YTMusic {
     return traverseList(searchData, ["sectionListRenderer", "contents"])
         .map(Parser.parseSection)
         .where((e) => e != null)
-        .cast<Section>()
+        .cast<YTMusicSection>()
         .toList();
   }
 
-  Future<Section> searchMore(Map<String, dynamic> endpoint) async {
+  Future<YTMusicSection> searchMore(Map<String, dynamic> endpoint) async {
     final searchData = await constructRequest(
       "search",
       body: endpoint,
@@ -263,7 +263,7 @@ class YTMusic {
     return SearchParser.parseMore(searchData);
   }
 
-  Future<Section> searchMoreContinuation(String continuation) async {
+  Future<YTMusicSection> searchMoreContinuation(String continuation) async {
     final data =
         await constructRequest("search", query: {"continuation": continuation});
 
@@ -400,13 +400,13 @@ class YTMusic {
   }
 
   /// Retrieves detailed information about an artist given its artist ID.
-  // Future<ArtistPage> getArtist(String artistId) async {
+  // Future<YTMusicArtistPage> getArtist(String artistId) async {
   //   final data = await constructRequest("browse", body: {"browseId": artistId});
 
   //   return ArtistParser.parse(data);
   // }
 
-  Future<ArtistPage> getArtistPage(Map<String, dynamic> endpoint) async {
+  Future<YTMusicArtistPage> getArtistPage(Map<String, dynamic> endpoint) async {
     final data = await constructRequest("browse", body: endpoint);
     return ArtistParser.parse(data);
   }
@@ -524,7 +524,7 @@ class YTMusic {
   //   ];
   // }
 
-  Future<ProfilePage> getProfilePage(Map<String, dynamic> endpoint) async {
+  Future<YTMusicProfilePage> getProfilePage(Map<String, dynamic> endpoint) async {
     final data = await constructRequest("browse", body: endpoint);
     return ProfileParser.parse(data);
   }
@@ -555,19 +555,19 @@ class YTMusic {
   // }
 
   /// Retrieves detailed information about an album given its endpoint.
-  Future<AlbumPage> getAlbumPage(Map<String, dynamic> endpoint) async {
+  Future<YTMusicAlbumPage> getAlbumPage(Map<String, dynamic> endpoint) async {
     final data = await constructRequest("browse", body: endpoint);
 
     return AlbumParser.parse(data);
   }
 
   /// Retrieves detailed information about a playlist given its endpoint.
-  Future<PlaylistPage> getPlaylistPage(Map<String, dynamic> endpoint) async {
+  Future<YTMusicPlaylistPage> getPlaylistPage(Map<String, dynamic> endpoint) async {
     final data = await constructRequest("browse", body: endpoint);
     return PlaylistParser.parse(data);
   }
 
-  Future<List<Section>> getPlaylistPageContinuation(String continuation) async {
+  Future<List<YTMusicSection>> getPlaylistPageContinuation(String continuation) async {
     final data =
         await constructRequest("browse", query: {"continuation": continuation});
 
@@ -619,13 +619,13 @@ class YTMusic {
   //       .toList();
   // }
 
-  Future<PodcastPage> getPodcastPage(Map<String, dynamic> endpoint) async {
+  Future<YTMusicPodcastPage> getPodcastPage(Map<String, dynamic> endpoint) async {
     final data = await constructRequest("browse", body: endpoint);
     return PodcastParser.parse(data);
   }
 
   /// Retrieves the home sections of the music platform.
-  Future<HomePage> getHomePage(
+  Future<YTMusicHomePage> getHomePage(
       {int limit = 3, String? continuationToken}) async {
     List sections = [];
     dynamic continuation = continuationToken;
@@ -647,12 +647,12 @@ class YTMusic {
       limit--;
     }
 
-    return HomePage(
+    return YTMusicHomePage(
       continuation: continuation,
       sections: sections
           .map(Parser.parseSection)
           .where((e) => e != null)
-          .cast<Section>()
+          .cast<YTMusicSection>()
           .toList(),
     );
   }

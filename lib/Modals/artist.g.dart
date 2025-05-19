@@ -6,13 +6,14 @@ part of 'artist.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ArtistBasic _$ArtistBasicFromJson(Map<String, dynamic> json) => ArtistBasic(
+YTMusicArtistBasic _$YTMusicArtistBasicFromJson(Map<String, dynamic> json) =>
+    YTMusicArtistBasic(
       artistId: json['artistId'] as String?,
       name: json['name'] as String,
       endpoint: json['endpoint'] as Map<String, dynamic>?,
     );
 
-Map<String, dynamic> _$ArtistBasicToJson(ArtistBasic instance) =>
+Map<String, dynamic> _$YTMusicArtistBasicToJson(YTMusicArtistBasic instance) =>
     <String, dynamic>{
       'artistId': instance.artistId,
       'endpoint': instance.endpoint,

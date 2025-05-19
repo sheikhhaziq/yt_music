@@ -1,15 +1,15 @@
-enum PageType {
+enum YTMusicPageType {
   musicPageTypeAlbum,
   musicPageTypePlaylist,
   musicVideoTypeOmv;
 
-  static string(PageType pageType) {
+  static string(YTMusicPageType pageType) {
     switch (pageType) {
-      case PageType.musicPageTypeAlbum:
+      case YTMusicPageType.musicPageTypeAlbum:
         return 'MUSIC_PAGE_TYPE_ALBUM';
-      case PageType.musicPageTypePlaylist:
+      case YTMusicPageType.musicPageTypePlaylist:
         return 'MUSIC_PAGE_TYPE_PLAYLIST';
-      case PageType.musicVideoTypeOmv:
+      case YTMusicPageType.musicVideoTypeOmv:
         return 'MUSIC_VIDEO_TYPE_OMV';
     }
   }

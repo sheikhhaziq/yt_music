@@ -4,7 +4,7 @@ import '../utils/traverse.dart';
 import 'parser.dart';
 
 class ArtistParser {
-  static ArtistPage parse(dynamic data) {
+  static YTMusicArtistPage parse(dynamic data) {
     final List contents = traverse(data, [
       'contents',
       'singleColumnBrowseResultsRenderer',
@@ -15,13 +15,13 @@ class ArtistParser {
     ]);
     final header = data['header'];
     final thumbs = traverseList(header, ["thumbnail", "thumbnails"])
-        .map((item) => Thumbnail.fromMap(item))
+        .map((item) => YTMusicThumbnail.fromMap(item))
         .toList();
     final shuffle =
         traverse(header, ["playButton", "navigationEndpoint", "watchEndpoint"]);
     final radio = traverse(
         header, ["startRadioButton", "navigationEndpoint", "watchEndpoint"]);
-    return ArtistPage(
+    return YTMusicArtistPage(
         name: traverseString(header, ["title", "text"]) ?? '',
         description: traverseString(header, ["description", "text"]) ?? '',
         subscribers: traverseString(
@@ -34,7 +34,7 @@ class ArtistParser {
             .map(Parser.parseSection)
             .where((e) => e != null)
             .toList()
-            .cast<Section>());
+            .cast<YTMusicSection>());
   }
 
 //   static ArtistDetailed parseSearchResult(dynamic item) {
