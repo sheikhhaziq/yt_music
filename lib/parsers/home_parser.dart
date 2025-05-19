@@ -1,0 +1,5 @@
+
+
+class HomeParser {
+  static parseHomePage() {}
+}
