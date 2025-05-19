@@ -2,7 +2,6 @@
 
 This package allows you to interact with YouTube Music data in Dart. You can search for songs, albums, artists, and playlists, retrieve detailed information, and get suggestions.
 
-> **Note:** This package is ported from [ts-npm-ytmusic-api](https://github.com/zS1L3NT/ts-npm-ytmusic-api). Credits to the original author.
 
 ## Getting Started
 
@@ -10,17 +9,6 @@ This package allows you to interact with YouTube Music data in Dart. You can sea
 
 You can install the package in your Dart project using the following methods:
 
-#### 1. Using `flutter pub` (for Flutter projects)
-
-```bash
-flutter pub add dart_ytmusic_api
-```
-
-#### 2. Using `dart pub` (for general Dart projects)
-
-```bash
-dart pub add dart_ytmusic_api
-```
 
 #### 3. Modifying `pubspec.yaml`
 
@@ -28,7 +16,9 @@ Add the following line to your `pubspec.yaml` file under the `dependencies` sect
 
 ```yaml
 dependencies:
-  dart_ytmusic_api: ^1.0.8
+  yt_music:
+    git:
+      url: https://github.com/sheikhhaziq/yt_music.git
 ```
 
 Then, run `flutter pub get` (for Flutter projects) or `dart pub get` (for general Dart projects) to install the package.
@@ -37,7 +27,7 @@ Then, run `flutter pub get` (for Flutter projects) or `dart pub get` (for genera
 Here's a basic example of how to use the YouTube Music API in Dart:
 
 ```dart
-import 'package:dart_ytmusic_api/yt_music.dart';
+import 'package:yt_music/yt_music.dart';
 
 void main() async {
   // Create an instance of the YouTube Music API
