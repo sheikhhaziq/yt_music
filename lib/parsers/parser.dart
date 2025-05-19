@@ -356,7 +356,8 @@ class Parser {
       subtitle: subtitle,
       id: traverseString(data['title'],
               ['runs', 'navigationEndpoint', 'browseEndpoint', 'browseId']) ??
-          "",
+         traverseString(data['title'],
+              ['runs', 'navigationEndpoint', 'watchEndpoint', 'videoId'])?? "",
       type: ItemType.fromString(
           traverseString(data['title'], ['navigationEndpoint', 'pageType'])),
       endpoint: traverse(data['title'], ['runs', 'browseEndpoint']),
