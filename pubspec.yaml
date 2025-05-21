@@ -4,7 +4,7 @@ version: 0.1.0
 repository: https://github.com/sheikhhaziq/dart_ytmusic_api.git
 
 environment:
-  sdk: ^3.4.3
+  sdk: '>=3.7.0 <4.0.0'
 
 dependencies:
   cookie_jar: ^4.0.8
