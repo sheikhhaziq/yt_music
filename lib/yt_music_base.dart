@@ -1,3 +1,4 @@
+import 'package:compute/compute.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 
 import 'Modals/modals.dart';
@@ -26,46 +27,53 @@ class YTMusic {
   bool hasInitialized = false;
 
   YTMusic({String? cookies, String? location, String? language})
-      : _cookies = cookies,
-        _gl = location,
-        _hl = language {
+    : _cookies = cookies,
+      _gl = location,
+      _hl = language {
     _cookieJar = CookieJar();
     _config = {};
     dio = Dio(
-      BaseOptions(baseUrl: "https://music.youtube.com/", headers: {
-        "User-Agent":
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36",
-        "Accept-Language": "en-US,en;q=0.5",
-        "Accept-Enconding": "gzip",
-        "Accept": "application/json, text/plain, */*",
-        "Content-Type": 'application/json',
-      }, extra: {
-        'withCredentials': true,
-      }),
+      BaseOptions(
+        baseUrl: "https://music.youtube.com/",
+        headers: {
+          "User-Agent":
+              "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36",
+          "Accept-Language": "en-US,en;q=0.5",
+          "Accept-Enconding": "gzip",
+          "Accept": "application/json, text/plain, */*",
+          "Content-Type": 'application/json',
+        },
+        extra: {'withCredentials': true},
+      ),
     );
 
-    dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) async {
-        final cookies =
-            await _cookieJar.loadForRequest(Uri.parse(options.baseUrl));
-        final cookieString = cookies
-            .map((cookie) => '${cookie.name}=${cookie.value}')
-            .join('; ');
-        if (cookieString.isNotEmpty) {
-          options.headers['cookie'] = cookieString;
-        }
-        return handler.next(options);
-      },
-      onResponse: (response, handler) {
-        final cookieStrings = response.headers['set-cookie'] ?? [];
-        for (final cookieString in cookieStrings) {
-          final cookie = Cookie.fromSetCookieValue(cookieString);
-          _cookieJar.saveFromResponse(
-              Uri.parse(response.requestOptions.baseUrl), [cookie]);
-        }
-        return handler.next(response);
-      },
-    ));
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          final cookies = await _cookieJar.loadForRequest(
+            Uri.parse(options.baseUrl),
+          );
+          final cookieString = cookies
+              .map((cookie) => '${cookie.name}=${cookie.value}')
+              .join('; ');
+          if (cookieString.isNotEmpty) {
+            options.headers['cookie'] = cookieString;
+          }
+          return handler.next(options);
+        },
+        onResponse: (response, handler) {
+          final cookieStrings = response.headers['set-cookie'] ?? [];
+          for (final cookieString in cookieStrings) {
+            final cookie = Cookie.fromSetCookieValue(cookieString);
+            _cookieJar.saveFromResponse(
+              Uri.parse(response.requestOptions.baseUrl),
+              [cookie],
+            );
+          }
+          return handler.next(response);
+        },
+      ),
+    );
   }
 
   /// Initializes the YTMusic instance and fetches YTMusic configs
@@ -76,10 +84,7 @@ class YTMusic {
     if (_cookies != null) {
       for (final cookieString in _cookies.split("; ")) {
         final cookie = Cookie.fromSetCookieValue(cookieString);
-        _cookieJar.saveFromResponse(
-          Uri.parse(dio.options.baseUrl),
-          [cookie],
-        );
+        _cookieJar.saveFromResponse(Uri.parse(dio.options.baseUrl), [cookie]);
       }
     }
 
@@ -102,20 +107,34 @@ class YTMusic {
       final html = response.data;
       _config['VISITOR_DATA'] = _extractValue(html, r'"VISITOR_DATA":"(.*?)"');
       _config['INNERTUBE_CONTEXT_CLIENT_NAME'] = _extractValue(
-          html, r'"INNERTUBE_CONTEXT_CLIENT_NAME":\s*(-?\d+|\"(.*?)\")');
-      _config['INNERTUBE_CLIENT_VERSION'] =
-          _extractValue(html, r'"INNERTUBE_CLIENT_VERSION":"(.*?)"');
+        html,
+        r'"INNERTUBE_CONTEXT_CLIENT_NAME":\s*(-?\d+|\"(.*?)\")',
+      );
+      _config['INNERTUBE_CLIENT_VERSION'] = _extractValue(
+        html,
+        r'"INNERTUBE_CLIENT_VERSION":"(.*?)"',
+      );
       _config['DEVICE'] = _extractValue(html, r'"DEVICE":"(.*?)"');
-      _config['PAGE_CL'] =
-          _extractValue(html, r'"PAGE_CL":\s*(-?\d+|\"(.*?)\")');
-      _config['PAGE_BUILD_LABEL'] =
-          _extractValue(html, r'"PAGE_BUILD_LABEL":"(.*?)"');
-      _config['INNERTUBE_API_KEY'] =
-          _extractValue(html, r'"INNERTUBE_API_KEY":"(.*?)"');
-      _config['INNERTUBE_API_VERSION'] =
-          _extractValue(html, r'"INNERTUBE_API_VERSION":"(.*?)"');
-      _config['INNERTUBE_CLIENT_NAME'] =
-          _extractValue(html, r'"INNERTUBE_CLIENT_NAME":"(.*?)"');
+      _config['PAGE_CL'] = _extractValue(
+        html,
+        r'"PAGE_CL":\s*(-?\d+|\"(.*?)\")',
+      );
+      _config['PAGE_BUILD_LABEL'] = _extractValue(
+        html,
+        r'"PAGE_BUILD_LABEL":"(.*?)"',
+      );
+      _config['INNERTUBE_API_KEY'] = _extractValue(
+        html,
+        r'"INNERTUBE_API_KEY":"(.*?)"',
+      );
+      _config['INNERTUBE_API_VERSION'] = _extractValue(
+        html,
+        r'"INNERTUBE_API_VERSION":"(.*?)"',
+      );
+      _config['INNERTUBE_CLIENT_NAME'] = _extractValue(
+        html,
+        r'"INNERTUBE_CLIENT_NAME":"(.*?)"',
+      );
       _config['GL'] = _extractValue(html, r'"GL":"(.*?)"');
       _config['HL'] = _extractValue(html, r'"HL":"(.*?)"');
     } catch (e) {
@@ -152,11 +171,13 @@ class YTMusic {
       "X-YouTube-Time-Zone": DateTime.now().timeZoneName,
     };
 
-    final searchParams = Uri.parse("?").replace(queryParameters: {
-      ...query,
-      "alt": "json",
-      "key": _config['INNERTUBE_API_KEY'],
-    });
+    final searchParams = Uri.parse("?").replace(
+      queryParameters: {
+        ...query,
+        "alt": "json",
+        "key": _config['INNERTUBE_API_KEY'],
+      },
+    );
 
     try {
       final response = await dio.post(
@@ -201,9 +222,7 @@ class YTMusic {
               ],
               "sessionIndex": {},
             },
-            "user": {
-              "enableSafetyMode": false,
-            },
+            "user": {"enableSafetyMode": false},
           },
           ...body,
         },
@@ -223,23 +242,29 @@ class YTMusic {
 
   /// Retrieves search suggestions for a given query.
   Future<List<String>> getSearchSuggestions(String query) async {
-    final response = await constructRequest("music/get_search_suggestions",
-        body: {"input": query});
+    final response = await constructRequest(
+      "music/get_search_suggestions",
+      body: {"input": query},
+    );
 
     return traverseList(response, ["query"]).whereType<String>().toList();
   }
 
-  Future<List<YTMusicSectionItem>> getBrowseMore(Map<String, dynamic> endpoint) async {
+  Future<List<YTMusicSectionItem>> getBrowseMore(
+    Map<String, dynamic> endpoint,
+  ) async {
     final data = await constructRequest("browse", body: endpoint);
 
-    return BrowseParser.parseMore(data);
+    return await compute(BrowseParser.parseMore, data);
   }
 
   Future<YTMusicSection> getBrowseContinuation(String continuation) async {
-    final data =
-        await constructRequest("browse", query: {"continuation": continuation});
+    final data = await constructRequest(
+      "browse",
+      query: {"continuation": continuation},
+    );
 
-    return BrowseParser.parseContinuation(data);
+    return await compute(BrowseParser.parseContinuation, data);
   }
 
   /// Performs a search for music with the given query and returns a list of search results.
@@ -248,24 +273,30 @@ class YTMusic {
       "search",
       body: {"query": query, "params": null},
     );
-    return traverseList(searchData, ["sectionListRenderer", "contents"])
-        .map(Parser.parseSection)
-        .where((e) => e != null)
-        .cast<YTMusicSection>()
-        .toList();
+    List<YTMusicSection> getSections(args) {
+      return traverseList(args[0], args[1])
+          .map(Parser.parseSection)
+          .where((e) => e != null)
+          .cast<YTMusicSection>()
+          .toList();
+    }
+
+    return await compute(getSections, [
+      searchData,
+      ["sectionListRenderer", "contents"],
+    ]);
   }
 
   Future<YTMusicSection> searchMore(Map<String, dynamic> endpoint) async {
-    final searchData = await constructRequest(
-      "search",
-      body: endpoint,
-    );
+    final searchData = await constructRequest("search", body: endpoint);
     return SearchParser.parseMore(searchData);
   }
 
   Future<YTMusicSection> searchMoreContinuation(String continuation) async {
-    final data =
-        await constructRequest("search", query: {"continuation": continuation});
+    final data = await constructRequest(
+      "search",
+      query: {"continuation": continuation},
+    );
 
     return SearchParser.parseMoreContinuation(data);
   }
@@ -384,11 +415,14 @@ class YTMusic {
     }
 
     final data = await constructRequest("next", body: {"videoId": videoId});
-    final browseId =
-        traverse(traverseList(data, ["tabs", "tabRenderer"])[1], ["browseId"]);
+    final browseId = traverse(traverseList(data, ["tabs", "tabRenderer"])[1], [
+      "browseId",
+    ]);
 
-    final lyricsData =
-        await constructRequest("browse", body: {"browseId": browseId});
+    final lyricsData = await constructRequest(
+      "browse",
+      body: {"browseId": browseId},
+    );
     final lyrics =
         traverseString(lyricsData, ["description", "runs", "text"])?.trim();
 
@@ -524,7 +558,9 @@ class YTMusic {
   //   ];
   // }
 
-  Future<YTMusicProfilePage> getProfilePage(Map<String, dynamic> endpoint) async {
+  Future<YTMusicProfilePage> getProfilePage(
+    Map<String, dynamic> endpoint,
+  ) async {
     final data = await constructRequest("browse", body: endpoint);
     return ProfileParser.parse(data);
   }
@@ -562,16 +598,22 @@ class YTMusic {
   }
 
   /// Retrieves detailed information about a playlist given its endpoint.
-  Future<YTMusicPlaylistPage> getPlaylistPage(Map<String, dynamic> endpoint) async {
+  Future<YTMusicPlaylistPage> getPlaylistPage(
+    Map<String, dynamic> endpoint,
+  ) async {
     final data = await constructRequest("browse", body: endpoint);
-    return PlaylistParser.parse(data);
+    return await compute(PlaylistParser.parse, data);
   }
 
-  Future<List<YTMusicSection>> getPlaylistPageContinuation(String continuation) async {
-    final data =
-        await constructRequest("browse", query: {"continuation": continuation});
+  Future<List<YTMusicSection>> getPlaylistPageContinuation(
+    String continuation,
+  ) async {
+    final data = await constructRequest(
+      "browse",
+      query: {"continuation": continuation},
+    );
 
-    return PlaylistParser.parseContinuation(data);
+    return await compute(PlaylistParser.parseContinuation, data);
   }
 
   /// Retrieves detailed information about a playlist given its playlist ID.
@@ -619,41 +661,64 @@ class YTMusic {
   //       .toList();
   // }
 
-  Future<YTMusicPodcastPage> getPodcastPage(Map<String, dynamic> endpoint) async {
+  Future<YTMusicPodcastPage> getPodcastPage(
+    Map<String, dynamic> endpoint,
+  ) async {
     final data = await constructRequest("browse", body: endpoint);
     return PodcastParser.parse(data);
   }
 
   /// Retrieves the home sections of the music platform.
-  Future<YTMusicHomePage> getHomePage(
-      {int limit = 3, String? continuationToken}) async {
+  Future<YTMusicHomePage> getHomePage({
+    int limit = 3,
+    String? continuationToken,
+  }) async {
     List sections = [];
     dynamic continuation = continuationToken;
     if (continuation == null) {
-      final data =
-          await constructRequest("browse", body: {"browseId": feMusicHome});
-      sections = traverseList(data, ["sectionListRenderer", "contents"]);
-      continuation = traverseString(data, ["continuation"]);
+      final data = await constructRequest(
+        "browse",
+        body: {"browseId": feMusicHome},
+      );
+
+      sections = await compute(Parser.getComputedList, [
+        data,
+        ["sectionListRenderer", "contents"],
+      ]);
+      continuation = await compute(Parser.getComputedString, [
+        data,
+        ["continuation"],
+      ]);
       limit--;
     }
     while (continuation != null && limit > 0) {
-      final data = await constructRequest("browse",
-          query: {"continuation": continuation});
+      final data = await constructRequest(
+        "browse",
+        query: {"continuation": continuation},
+      );
 
-      sections
-          .addAll(traverseList(data, ["sectionListContinuation", "contents"]));
+      sections.addAll(
+        await compute(Parser.getComputedList, [
+          data,
+          ["sectionListContinuation", "contents"],
+        ]),
+      );
 
-      continuation = traverseString(data, ["continuation"]);
+      continuation = await compute(Parser.getComputedString, [
+        data,
+        ["continuation"],
+      ]);
       limit--;
     }
 
     return YTMusicHomePage(
       continuation: continuation,
-      sections: sections
-          .map(Parser.parseSection)
-          .where((e) => e != null)
-          .cast<YTMusicSection>()
-          .toList(),
+      sections:
+          sections
+              .map(Parser.parseSection)
+              .where((e) => e != null)
+              .cast<YTMusicSection>()
+              .toList(),
     );
   }
 }
