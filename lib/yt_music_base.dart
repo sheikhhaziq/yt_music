@@ -247,7 +247,10 @@ class YTMusic {
       body: {"input": query},
     );
 
-    return traverseList(response, ["query"]).whereType<String>().toList();
+    return Parser.getComputedList([
+      response,
+      ["query"],
+    ]).whereType<String>().toList();
   }
 
   Future<List<YTMusicSectionItem>> getBrowseMore(
@@ -289,7 +292,7 @@ class YTMusic {
 
   Future<YTMusicSection> searchMore(Map<String, dynamic> endpoint) async {
     final searchData = await constructRequest("search", body: endpoint);
-    return SearchParser.parseMore(searchData);
+    return compute(SearchParser.parseMore, searchData);
   }
 
   Future<YTMusicSection> searchMoreContinuation(String continuation) async {
@@ -298,7 +301,7 @@ class YTMusic {
       query: {"continuation": continuation},
     );
 
-    return SearchParser.parseMoreContinuation(data);
+    return compute(SearchParser.parseMoreContinuation, data);
   }
 
   /// Performs a search specifically for songs with the given query and returns a list of song details.
@@ -442,7 +445,7 @@ class YTMusic {
 
   Future<YTMusicArtistPage> getArtistPage(Map<String, dynamic> endpoint) async {
     final data = await constructRequest("browse", body: endpoint);
-    return ArtistParser.parse(data);
+    return compute(ArtistParser.parse, data);
   }
 
   /// Retrieves a list of songs by a specific artist given the artist's ID.
@@ -562,7 +565,7 @@ class YTMusic {
     Map<String, dynamic> endpoint,
   ) async {
     final data = await constructRequest("browse", body: endpoint);
-    return ProfileParser.parse(data);
+    return compute(ProfileParser.parse, data);
   }
   // /// Retrieves detailed information about an album given its album ID.
   // Future<AlbumFull> getAlbum(String albumId) async {
@@ -594,7 +597,7 @@ class YTMusic {
   Future<YTMusicAlbumPage> getAlbumPage(Map<String, dynamic> endpoint) async {
     final data = await constructRequest("browse", body: endpoint);
 
-    return AlbumParser.parse(data);
+    return compute(AlbumParser.parse, data);
   }
 
   /// Retrieves detailed information about a playlist given its endpoint.
