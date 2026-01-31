@@ -49,7 +49,7 @@ class BrowseParser {
     final continuationsJson = sectionListRenderer['continuations'];
     final continuation = parseContinuationString(continuationsJson);
     final chipsJson =
-        headerJson['chipCloudRenderer']?['chips'] as List<dynamic>?;
+        headerJson?['chipCloudRenderer']?['chips'] as List<dynamic>?;
     final chips = _parseChips(chipsJson);
     final sections = contentsjson
         .map(SectionParser.parse)
@@ -110,8 +110,8 @@ class BrowseParser {
     );
   }
 
-  static List<ChipItem> _parseChips(List<dynamic>? json) {
-    if (json == null) return [];
+  static List<ChipItem>? _parseChips(List<dynamic>? json) {
+    if (json == null) return null;
     return json.map(_parseChip).whereType<ChipItem>().toList();
   }
 
