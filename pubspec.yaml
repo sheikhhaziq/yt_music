@@ -12,7 +12,8 @@ dependencies:
     sdk: flutter
   http: ^1.6.0
   gyawun_services:
-    path: ../gyawun_services
+    git:
+      url: https://github.com/sheikhhaziq/gyawun_services.git
   dio: ^5.9.0
 
 dev_dependencies:
