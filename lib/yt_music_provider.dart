@@ -53,7 +53,7 @@ class YtMusicProvider extends MusicProvider {
   }
 
   @override
-  Future<BrowseResult> browse(BrowsePayload? payload) async {
+  Future<BrowseResult> browse(BrowsePayload? payload, {int limit = 1}) async {
     final limit = 1;
     if (!initialized) {
       throw StateError('Provider not initialized');
