@@ -29,4 +29,22 @@ class YTConfig {
     clientName: clientName ?? this.clientName,
     clientVersion: clientVersion ?? this.clientVersion,
   );
+
+  factory YTConfig.fromJson(Map<String, dynamic> json) => YTConfig(
+    visitorData: json['visitorData'],
+    language: json['language'],
+    location: json['location'],
+    apiKey: json['apiKey'],
+    clientName: json['clientName'],
+    clientVersion: json['clientVersion'],
+  );
+
+  Map<String, dynamic> toJson() => {
+    'visitorData': visitorData,
+    'language': language,
+    'location': location,
+    'apiKey': apiKey,
+    'clientName': clientName,
+    'clientVersion': clientVersion,
+  };
 }

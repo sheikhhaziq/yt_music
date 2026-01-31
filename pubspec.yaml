@@ -1,7 +1,7 @@
 name: yt_music
 description: "A new Flutter package project."
 version: 0.0.1
-homepage:
+publish_to: "none"
 
 environment:
   sdk: ^3.10.7
@@ -11,6 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^1.6.0
+  gyawun_services:
+    path: ../gyawun_services
+  dio: ^5.9.0
 
 dev_dependencies:
   flutter_test:
