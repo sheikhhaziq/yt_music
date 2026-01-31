@@ -66,7 +66,7 @@ class YtMusicProvider extends MusicProvider {
       endpoint: 'browse',
       body: {if (payload.params.isNotEmpty) ...payload.params},
     );
-    final result = BrowseParser.parse(json);
+    BrowseResult? result = BrowseParser.parse(json);
     if (result == null) {
       throw StateError('Failed to parse browse result');
     }
@@ -80,7 +80,10 @@ class YtMusicProvider extends MusicProvider {
         payload = res.continuationPayload;
         l -= res.sections.length;
       }
-      result.copyWith(sections: sections, continuationPayload: payload);
+      result = result.copyWith(
+        sections: sections,
+        continuationPayload: payload,
+      );
     }
     return result;
   }
