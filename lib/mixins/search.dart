@@ -1,12 +1,12 @@
-
-
 import '../client.dart';
 import '../helpers.dart';
 import 'utils.dart';
 
 mixin SearchMixin on YTClient {
-  Future<List<Map<String, dynamic>>> getSearchSuggestions(String query,
-      {bool detailedRuns = false}) async {
+  Future<List<Map<String, dynamic>>> getSearchSuggestions(
+    String query, {
+    bool detailedRuns = false,
+  }) async {
     if (query == '') {
       return [];
     }
@@ -16,23 +16,33 @@ mixin SearchMixin on YTClient {
     var response = await sendRequest(endpoint, body);
     var contents = response['contents'] ?? [];
     for (Map content in contents) {
-      List? searchSuggestionsSectionRendererContents =
-          nav(content, ['searchSuggestionsSectionRenderer', 'contents']);
+      List? searchSuggestionsSectionRendererContents = nav(content, [
+        'searchSuggestionsSectionRenderer',
+        'contents',
+      ]);
       if (searchSuggestionsSectionRendererContents != null) {
         for (Map item in searchSuggestionsSectionRendererContents) {
-          Map? searchSuggestionRenderer =
-              nav(item, ['searchSuggestionRenderer']);
-          Map? musicResponsiveListItemRenderer =
-              nav(item, ['musicResponsiveListItemRenderer']);
+          Map? searchSuggestionRenderer = nav(item, [
+            'searchSuggestionRenderer',
+          ]);
+          Map? musicResponsiveListItemRenderer = nav(item, [
+            'musicResponsiveListItemRenderer',
+          ]);
           if (searchSuggestionRenderer != null) {
             suggestions.add(<String, dynamic>{
               'type': 'TEXT',
-              'query': nav(searchSuggestionRenderer,
-                  ['navigationEndpoint', 'searchEndpoint', 'query'])
+              'query': nav(searchSuggestionRenderer, [
+                'navigationEndpoint',
+                'searchEndpoint',
+                'query',
+              ]),
             });
           } else if (musicResponsiveListItemRenderer != null) {
-            suggestions.add(handleMusicResponsiveListItemRenderer(
-                musicResponsiveListItemRenderer));
+            suggestions.add(
+              handleMusicResponsiveListItemRenderer(
+                musicResponsiveListItemRenderer,
+              ),
+            );
           }
         }
       }
@@ -40,13 +50,15 @@ mixin SearchMixin on YTClient {
     return suggestions;
   }
 
-  Future<Map<String, dynamic>> search(String query,
-      {String? filter,
-      String? scope,
-      int limit = 30,
-      bool ignoreSpelling = false,
-      String additionalParams = '',
-      Map<String, dynamic>? endpoint}) async {
+  Future<Map<String, dynamic>> search(
+    String query, {
+    String? filter,
+    String? scope,
+    int limit = 30,
+    bool ignoreSpelling = false,
+    String additionalParams = '',
+    Map<String, dynamic>? endpoint,
+  }) async {
     final data = Map.of(context);
 
     final filters = [
@@ -56,28 +68,34 @@ mixin SearchMixin on YTClient {
       'community_playlists',
       'featured_playlists',
       'songs',
-      'videos'
+      'videos',
     ];
 
     if (filter != null && !filters.contains(filter)) {
       throw Exception(
-          'Invalid filter provided. Please use one of the following filters or leave out the parameter: ${filters.join(', ')}');
+        'Invalid filter provided. Please use one of the following filters or leave out the parameter: ${filters.join(', ')}',
+      );
     }
 
     final scopes = ['library', 'uploads'];
 
     if (scope != null && !scopes.contains(scope)) {
       throw Exception(
-          'Invalid scope provided. Please use one of the following scopes or leave out the parameter: ${scopes.join(', ')}');
+        'Invalid scope provided. Please use one of the following scopes or leave out the parameter: ${scopes.join(', ')}',
+      );
     }
 
     if (scope == scopes[1] && filter != null) {
       throw Exception(
-          'No filter can be set when searching uploads. Please unset the filter parameter when scope is set to uploads.');
+        'No filter can be set when searching uploads. Please unset the filter parameter when scope is set to uploads.',
+      );
     }
 
-    final params =
-        getSearchParams(filter, scope, ignoreSpelling: ignoreSpelling);
+    final params = getSearchParams(
+      filter,
+      scope,
+      ignoreSpelling: ignoreSpelling,
+    );
 
     if (params != null) {
       data['params'] = params;
@@ -88,11 +106,15 @@ mixin SearchMixin on YTClient {
       data['query'] = query;
     }
 
-    final response =
-        (await sendRequest("search", data, additionalParams: additionalParams));
+    final response = (await sendRequest(
+      "search",
+      data,
+      additionalParams: additionalParams,
+    ));
     Map<String, dynamic> result = {};
     if (response.isNotEmpty) {
-      List contents = nav(response, [
+      List contents =
+          nav(response, [
             'contents',
             'tabbedSearchResultsRenderer',
             'tabs',
@@ -100,17 +122,21 @@ mixin SearchMixin on YTClient {
             'tabRenderer',
             'content',
             'sectionListRenderer',
-            'contents'
+            'contents',
           ]) ??
-          nav(response,
-              ['continuationContents', 'musicShelfContinuation', 'contents']);
-      String? cont = nav(contents, [
+          nav(response, [
+            'continuationContents',
+            'musicShelfContinuation',
+            'contents',
+          ]);
+      String? cont =
+          nav(contents, [
             0,
             'musicShelfRenderer',
             'continuations',
             0,
             'nextContinuationData',
-            'continuation'
+            'continuation',
           ]) ??
           nav(response, [
             'continuationContents',
@@ -118,7 +144,7 @@ mixin SearchMixin on YTClient {
             'continuations',
             0,
             'nextContinuationData',
-            'continuation'
+            'continuation',
           ]);
       String? continuationparams;
       if (endpoint != null && cont != null) {
@@ -128,23 +154,35 @@ mixin SearchMixin on YTClient {
         result['continuation'] = null;
       }
       List<Map<String, dynamic>> resultContents = [];
+      List<dynamic> groupedItems = [];
 
       Map? continuationContents = response['continuationContents'];
+
       for (Map content in contents) {
         Map? musicCardShelfRenderer = content['musicCardShelfRenderer'];
         Map? musicShelfRenderer = content['musicShelfRenderer'];
+        Map? itemSectionRenderer = content['itemSectionRenderer'];
+
         if (musicCardShelfRenderer != null) {
-          resultContents
-              .add(_handleMusicCardShelfRenderer(musicCardShelfRenderer));
+          resultContents.add(
+            _handleMusicCardShelfRenderer(musicCardShelfRenderer),
+          );
         } else if (musicShelfRenderer != null) {
           resultContents.add(handleMusicShelfRenderer(musicShelfRenderer));
+        } else if (itemSectionRenderer != null) {
+          groupedItems.addAll(_handleItemSectionRenderer(itemSectionRenderer));
         }
       }
-      if (continuationContents != null) {
-        resultContents.add(handleContinuationContents(
-            continuationContents['musicShelfContinuation']));
+      if (groupedItems.isNotEmpty) {
+        resultContents.add({'title': null, 'contents': groupedItems});
       }
-
+      if (continuationContents != null) {
+        resultContents.add(
+          handleContinuationContents(
+            continuationContents['musicShelfContinuation'],
+          ),
+        );
+      }
       result['sections'] = resultContents;
     }
     return result;
@@ -165,6 +203,16 @@ mixin SearchMixin on YTClient {
       section['contents'].addAll(handleContents(contents));
     }
     return section;
+  }
+
+  List<dynamic> _handleItemSectionRenderer(Map item) {
+    List? itemContents = nav(item, ['contents']);
+    if (itemContents != null && itemContents.isNotEmpty) {
+      if (!itemContents[0].containsKey('messageRenderer')) {
+        return handleContents(itemContents);
+      }
+    }
+    return [];
   }
 
   // Map<String, dynamic> _handleHeader(Map header) {
@@ -192,28 +240,43 @@ mixin SearchMixin on YTClient {
   // }
 
   Map<String, dynamic> _handleTopResult(Map item) {
-    Map? browseEndpoint =
-        nav(item, ['title', 'runs', 0, 'navigationEndpoint', 'browseEndpoint']);
-    Map? watchEndpoint =
-        nav(item, ['title', 'runs', 0, 'navigationEndpoint', 'watchEndpoint']);
+    Map? browseEndpoint = nav(item, [
+      'title',
+      'runs',
+      0,
+      'navigationEndpoint',
+      'browseEndpoint',
+    ]);
+    Map? watchEndpoint = nav(item, [
+      'title',
+      'runs',
+      0,
+      'navigationEndpoint',
+      'watchEndpoint',
+    ]);
     List? subtitle = nav(item, ['subtitle', 'runs']);
     Map<String, dynamic> top = {
-      'thumbnails': nav(item,
-          ['thumbnail', 'musicThumbnailRenderer', 'thumbnail', 'thumbnails']),
+      'thumbnails': nav(item, [
+        'thumbnail',
+        'musicThumbnailRenderer',
+        'thumbnail',
+        'thumbnails',
+      ]),
       'title': nav(item, ['title', 'runs', 0, 'text']),
       'videoId': watchEndpoint?['videoId'],
-      'type': itemCategory[nav(browseEndpoint, [
-            'browseEndpointContextSupportedConfigs',
-            'browseEndpointContextMusicConfig',
-            'pageType'
-          ]) ??
-          nav(watchEndpoint, [
-            'watchEndpointMusicSupportedConfigs',
-            'watchEndpointMusicConfig',
-            'musicVideoType'
-          ])],
+      'type':
+          itemCategory[nav(browseEndpoint, [
+                'browseEndpointContextSupportedConfigs',
+                'browseEndpointContextMusicConfig',
+                'pageType',
+              ]) ??
+              nav(watchEndpoint, [
+                'watchEndpointMusicSupportedConfigs',
+                'watchEndpointMusicConfig',
+                'musicVideoType',
+              ])],
       'endpoint': browseEndpoint,
-      'subtitle': subtitle?.map((e) => e['text']).join('')
+      'subtitle': subtitle?.map((e) => e['text']).join(''),
     };
     if (subtitle != null) {
       top.addAll(checkRuns(subtitle));
@@ -226,7 +289,7 @@ mixin SearchMixin on YTClient {
           'buttonRenderer',
           'command',
           'watchPlaylistEndpoint',
-          'playlistId'
+          'playlistId',
         ]);
         if (iconType == 'MUSIC_SHUFFLE') {
           top['playlistId'] ??= playlistId;
@@ -240,8 +303,11 @@ mixin SearchMixin on YTClient {
   }
 }
 
-String? getSearchParams(String? filter, String? scope,
-    {bool ignoreSpelling = true}) {
+String? getSearchParams(
+  String? filter,
+  String? scope, {
+  bool ignoreSpelling = true,
+}) {
   String filteredParam1 = 'EgWKAQ';
   String? params;
   String param1 = '';
@@ -314,7 +380,7 @@ String _getParam2(String filter) {
     'playlists': 'Io',
     'profiles': 'JY',
     'podcasts': 'JQ',
-    'episodes': 'JI'
+    'episodes': 'JI',
   };
   return filterParams[filter]!;
 }
